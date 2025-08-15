@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Menu, X } from 'lucide-react'; 
+import { Menu, X } from 'lucide-react';
+import BrandLogo from './assets/logo/anvaiyatechlogo.jpg';
 
 const Navbar = () => {
     // State to manage the visibility of the mobile menu
@@ -15,7 +16,7 @@ const Navbar = () => {
             <div className="container mx-auto flex justify-between items-center px-4 md:px-0">
                 {/* Logo or Brand Name */}
                 <div className="text-gray-900 text-2xl font-bold rounded-md">
-                    MyBrand
+                    <img src={BrandLogo} alt="" className="h-7 w-30" />
                 </div>
 
                 {/* Desktop Navigation Links */}

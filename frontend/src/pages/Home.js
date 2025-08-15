@@ -1,24 +1,30 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
-import heroimage1 from './assets/img/herosection1.png';
-import heroimage2 from './assets/img/herosection2.png';
-import heroimage3 from './assets/img/herosection3.png';
+import heroimage1 from "./assets/img/herosection1.png";
+import heroimage2 from "./assets/img/herosection2.png";
+import heroimage3 from "./assets/img/herosection3.png";
+import WebService from "./assets/img/web development.jpg";
+import AppService from './assets/img/app developement.jpg';
+import ApiService from './assets/img/api.jpg';
 
 const Home = () => {
   const heroSlogan = [
     {
       headline: "Your Vision. Our Code. Unlimited Possibilities",
-      subtitle: "From sleek design to powerful features, we bring your ideas to life.",
+      subtitle:
+        "From sleek design to powerful features, we bring your ideas to life.",
       img: heroimage1,
     },
     {
       headline: "Stand Out. Get Noticed. Win Customers.",
-      subtitle: "We craft user-friendly, high-performance websites and apps that make an impact.",
+      subtitle:
+        "We craft user-friendly, high-performance websites and apps that make an impact.",
       img: heroimage2,
     },
     {
       headline: "We Build Websites & Apps That Grow Your Business",
-      subtitle: "Custom digital solutions designed to attract customers and boost your revenue.",
+      subtitle:
+        "Custom digital solutions designed to attract customers and boost your revenue.",
       img: heroimage3,
     },
   ];
@@ -39,6 +45,31 @@ const Home = () => {
 
     return () => clearInterval(interval);
   }, [heroSlogan.length]);
+
+  // our Services
+  const services = [
+    {
+      title: "Web Development",
+      subheading:
+        "Building fast, responsive, and scalable websites using MERN, WordPress, Next.js, and more.",
+      buttonText: "Learn More",
+      img: WebService
+    },
+    {
+      title: "Mobile App Development",
+      subheading:
+        "Creating cross-platform mobile apps with Flutter and React Native for seamless user experiences.",
+      buttonText: "Learn More",
+      img: AppService
+    },
+    {
+      title: "API Development & Integration",
+      subheading:
+        "Designing and integrating robust APIs to connect your applications with third-party services and data sources.",
+      buttonText: "Learn More",
+      img: ApiService
+    },
+  ];
 
   return (
     <div className="relative min-h-screen flex flex-col overflow-x-hidden">
@@ -104,6 +135,45 @@ const Home = () => {
           </div>
         </div>
       </div>
+      {/* // Our Services  */}
+
+      {/* Our Services Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto px-4 md:px-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">
+            Our Services
+          </h2>
+
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {services.map((service, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col"
+              >
+                {/* Service Image */}
+                <img
+                  src={service.img}
+                  alt={service.title}
+                  className="rounded-t-xl h-48 w-full object-cover"
+                />
+
+                {/* Service Content */}
+                <div className="p-6 flex flex-col flex-grow">
+                  <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                    {service.title}
+                  </h3>
+                  <p className="text-gray-600 mb-4 flex-grow">
+                    {service.subheading}
+                  </p>
+                  <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300">
+                    {service.buttonText}
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
 };
