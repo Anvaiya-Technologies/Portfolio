@@ -7,6 +7,7 @@ import About from "./components/About";
 import Contact from "./components/Contact";
 import AnimatedBackground from "./components/AnimatedBackground"; 
 import Footer from "./components/Footer";
+import Services from "./components/Services";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <Navbar />
       <Hero />
       <Highlights />
+      <Services />
       <Features />
       <About />
       <Contact />
