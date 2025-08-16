@@ -4,7 +4,7 @@ const Hero = () => {
   return (
     <section id="hero" className="min-h-screen flex flex-col justify-center items-center text-center px-6">
       <h1 className="text-5xl md:text-7xl font-bold mb-6">
-        Welcome to <span className="text-cyan-400">Your Startup</span>
+        Welcome to <span className="text-cyan-400">Anvaiya Technologies</span>
       </h1>
       <p className="text-lg md:text-xl max-w-2xl">
         Empowering businesses with cutting-edge solutions to scale faster, smarter, and better.

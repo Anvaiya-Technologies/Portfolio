@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
+import AnimatedBackground from "../components/AnimatedBackground"; // ⬅️ add this
 import heroimage1 from "./assets/img/herosection1.png";
 import heroimage2 from "./assets/img/herosection2.png";
 import heroimage3 from "./assets/img/herosection3.png";
@@ -12,12 +13,14 @@ const heroSlides = [
   },
   {
     headline: "Your Vision. Our Code. Unlimited Possibilities",
-    subtitle: "From sleek design to powerful solutions, we bring your ideas to life.",
+    subtitle:
+      "From sleek design to powerful solutions, we bring your ideas to life.",
     img: heroimage2,
   },
   {
     headline: "Building Websites & Apps That Grow Your Business",
-    subtitle: "Custom digital solutions designed to attract customers and boost revenue.",
+    subtitle:
+      "Custom digital solutions designed to attract customers and boost revenue.",
     img: heroimage3,
   },
 ];
@@ -38,12 +41,14 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="relative min-h-screen flex flex-col">
-      <div className="absolute right-0 top-0 h-full w-1/2 bg-brand-light -z-10" />
+    <div className="relative min-h-screen flex flex-col text-white">
+      {/* Background animation */}
+      <AnimatedBackground />
+
       <Navbar />
 
       {/* Hero Section */}
-      <main className="flex-grow flex items-center">
+      <main className="flex-grow flex items-center relative z-10">
         <div className="container mx-auto px-6 flex flex-col lg:flex-row gap-12 items-center">
           {/* Left Content */}
           <div className="w-full lg:w-1/2 space-y-8">
@@ -52,29 +57,26 @@ const Home = () => {
                 fade ? "opacity-0" : "opacity-100"
               }`}
             >
-              <h1 className="text-5xl font-bold text-brand-dark">
-                {heroSlides[index].headline}
-              </h1>
-              <p className="text-xl text-gray-600">
-                {heroSlides[index].subtitle}
-              </p>
+              <h1 className="text-5xl font-bold">{heroSlides[index].headline}</h1>
+              <p className="text-xl text-gray-200">{heroSlides[index].subtitle}</p>
             </div>
+
             <div className="flex gap-4">
               <button className="btn-primary">Contact Us</button>
               <button className="btn-secondary">Our Services</button>
             </div>
 
             {/* Company Metrics */}
-            <div className="mt-8 flex gap-8 text-gray-800">
-              <div className="shadow-card rounded-xl p-4 bg-white text-center">
+            <div className="mt-8 flex gap-8 text-gray-200">
+              <div className="shadow-card rounded-xl p-4 bg-white/10 backdrop-blur text-center">
                 <h3 className="text-2xl font-bold text-brand-blue">25+</h3>
                 <p className="text-sm">Years Experience</p>
               </div>
-              <div className="shadow-card rounded-xl p-4 bg-white text-center">
+              <div className="shadow-card rounded-xl p-4 bg-white/10 backdrop-blur text-center">
                 <h3 className="text-2xl font-bold text-brand-blue">2500+</h3>
                 <p className="text-sm">Happy Clients</p>
               </div>
-              <div className="shadow-card rounded-xl p-4 bg-white text-center">
+              <div className="shadow-card rounded-xl p-4 bg-white/10 backdrop-blur text-center">
                 <h3 className="text-2xl font-bold text-brand-blue">12+</h3>
                 <p className="text-sm">Offices</p>
               </div>
@@ -95,7 +97,7 @@ const Home = () => {
       </main>
 
       {/* Navigation dots */}
-      <div className="flex justify-center gap-3 mt-8 mb-12">
+      <div className="flex justify-center gap-3 mt-8 mb-12 relative z-10">
         {heroSlides.map((_, i) => (
           <button
             key={i}
@@ -107,9 +109,7 @@ const Home = () => {
               }, 500);
             }}
             className={`w-4 h-4 rounded-full transition-all duration-300 ${
-              index === i
-                ? "bg-brand-blue w-6"
-                : "bg-gray-300 hover:bg-gray-400"
+              index === i ? "bg-brand-blue w-6" : "bg-gray-400 hover:bg-gray-500"
             }`}
           />
         ))}
