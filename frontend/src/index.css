@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom background animation */
 .bg-animated {
   background: radial-gradient(circle at 20% 30%, #4f46e5, transparent 25%),
               radial-gradient(circle at 80% 40%, #06b6d4, transparent 25%),
@@ -14,4 +13,9 @@
 @keyframes moveBackground {
   0% { background-position: 0% 0%; }
   100% { background-position: 100% 100%; }
+}
+
+
+html, body {
+  overflow-x: hidden;
 }
