@@ -50,13 +50,16 @@ function App() {
 
             {/* Main Sections */}
             <Navbar />
-            <Hero />
-            <Highlights />
-            <Services />
-            <Features />
-            <About />
-            <Contact />
-            <Footer />
+            <div className="relative z-10">
+              {/* Main content sections */} 
+              <Hero />
+              <Highlights />
+              <Services />
+              <Features />
+              <About />
+              <Contact />
+              <Footer />
+            </div>
           </>
         )}
       </AnimatePresence>

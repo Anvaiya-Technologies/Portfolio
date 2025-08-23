@@ -1,4 +1,3 @@
-// src/components/AnimatedBackground.jsx
 import React, { useEffect, useRef } from "react";
 
 const AnimatedBackground = () => {
@@ -8,69 +7,60 @@ const AnimatedBackground = () => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    function resizeCanvas() {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
 
-    let particles = [];
+    const lines = [];
+    const lineCount = 30;
 
-    class Particle {
-      constructor(x, y) {
-        this.x = x;
-        this.y = y;
-        this.radius = Math.random() * 3 + 2;
-        this.dx = (Math.random() - 0.5) * 1.5;
-        this.dy = (Math.random() - 0.5) * 1.5;
-      }
-
-      draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(100, 200, 255, 0.4)"; // softer bluish tone
-        ctx.fill();
-      }
-
-      update() {
-        if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
-          this.dx = -this.dx;
-        }
-        if (this.y + this.radius > canvas.height || this.y - this.radius < 0) {
-          this.dy = -this.dy;
-        }
-        this.x += this.dx;
-        this.y += this.dy;
-        this.draw();
-      }
+    for (let i = 0; i < lineCount; i++) {
+      const x = Math.random() * canvas.width;
+      const y = Math.random() * canvas.height;
+      const speed = 0.5 + Math.random();
+      lines.push({ x, y, speed });
     }
 
-    for (let i = 0; i < 120; i++) {
-      particles.push(
-        new Particle(
-          Math.random() * canvas.width,
-          Math.random() * canvas.height
-        )
-      );
-    }
-
-    function animate() {
-      ctx.fillStyle = "rgba(10, 10, 30, 0.3)"; // darker background fade
+    function draw() {
+      ctx.fillStyle = "rgba(10, 10, 30, 0.15)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      particles.forEach((p) => p.update());
-      requestAnimationFrame(animate);
+
+      lines.forEach((line) => {
+        ctx.beginPath();
+        ctx.moveTo(line.x, line.y);
+        ctx.lineTo(line.x + 200, line.y + 200);
+        ctx.strokeStyle = "rgba(75, 166, 168, 0.4)";
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(line.x + 100, line.y + 100, 3, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(75, 166, 168, 0.8)";
+        ctx.fill();
+
+        line.x -= line.speed;
+        line.y -= line.speed;
+
+        if (line.x < -200 || line.y < -200) {
+          line.x = canvas.width;
+          line.y = Math.random() * canvas.height;
+        }
+      });
+
+      requestAnimationFrame(draw);
     }
 
-    animate();
+    draw();
 
-    window.addEventListener("resize", () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    });
+    return () => window.removeEventListener("resize", resizeCanvas);
   }, []);
 
   return (
-    <div className="absolute inset-0 -z-10">
-      <canvas ref={canvasRef}></canvas>
-      {/* Dark overlay for readability */}
-      <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+    <div className="absolute inset-0">
+      <canvas ref={canvasRef} className="w-full h-full" />
     </div>
   );
 };

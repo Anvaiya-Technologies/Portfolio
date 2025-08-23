@@ -16,7 +16,7 @@ function Features() {
         scale: isInView ? 1 : 0.8,
         opacity: isInView ? 1 : 0.6,
       }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+      transition={{ duration: 3, ease: "easeOut" }}
     >
       <div className="max-w-6xl mx-auto text-center px-4">
         <h2 className="text-4xl font-bold mb-8">Features</h2>
