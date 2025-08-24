@@ -1,30 +1,110 @@
-// src/sections/Hero.jsx
 import React, { useState, useEffect } from "react";
 import { motion, useAnimation, useScroll, useTransform } from "framer-motion";
-import AnimatedBackground from "../components/AnimatedBackground";
+
+// Your AnimatedBackground component
+const AnimatedBackground = () => {
+  const canvasRef = React.useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+
+    function resizeCanvas() {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    const lines = [];
+    const lineCount = 30;
+
+    for (let i = 0; i < lineCount; i++) {
+      const x = Math.random() * canvas.width;
+      const y = Math.random() * canvas.height;
+      const speed = 0.5 + Math.random();
+      lines.push({ x, y, speed });
+    }
+
+    function draw() {
+      ctx.fillStyle = "rgba(10, 10, 30, 0.15)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      lines.forEach((line) => {
+        ctx.beginPath();
+        ctx.moveTo(line.x, line.y);
+        ctx.lineTo(line.x + 200, line.y + 200);
+        ctx.strokeStyle = "rgba(75, 166, 168, 0.4)";
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(line.x + 100, line.y + 100, 3, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(75, 166, 168, 0.8)";
+        ctx.fill();
+
+        line.x -= line.speed;
+        line.y -= line.speed;
+
+        if (line.x < -200 || line.y < -200) {
+          line.x = canvas.width;
+          line.y = Math.random() * canvas.height;
+        }
+      });
+
+      requestAnimationFrame(draw);
+    }
+
+    draw();
+
+    return () => window.removeEventListener("resize", resizeCanvas);
+  }, []);
+
+  return (
+    <div className="absolute inset-0">
+      <canvas ref={canvasRef} className="w-full h-full" />
+    </div>
+  );
+};
 
 const Hero = () => {
-  const [split, setSplit] = useState(false);
   const controls = useAnimation();
 
   // Scroll sync
   const { scrollYProgress } = useScroll();
   const yOffset = useTransform(scrollYProgress, [0, 1], [0, 100]);
 
-  const handleClick = () => {
-    setSplit(true);
-    controls.start({
-      scale: [1, 1.2, 0.9, 1],
-      rotate: [0, 10, -10, 0],
-      transition: { duration: 0.6 },
-    });
-  };
+  // Auto-animate on load
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      controls.start({
+        x: 0,
+        y: 0,
+        scale: 1,
+        rotate: 0,
+        opacity: 1,
+        transition: {
+          duration: 1.5,
+          ease: [0.6, 0.01, -0.05, 0.95],
+          type: "spring",
+          bounce: 0.3,
+        },
+      });
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [controls]);
 
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex flex-col justify-center items-center text-center px-6 pt-navbar pb-16 scroll-mt-navbar overflow-hidden"
+      className="relative min-h-screen flex flex-col justify-center items-center text-center px-6 pt-20 pb-16 overflow-hidden"
     >
+      {/* Main Background */}
+      <div className="absolute inset-0 bg-gray-900">
+        <AnimatedBackground />
+      </div>
+
       {/* Floating glow orbs */}
       <motion.div
         className="absolute top-20 left-10 w-24 h-24 rounded-full bg-cyan-400/20 blur-3xl"
@@ -43,25 +123,30 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.2, duration: 0.6 }}
-          className="text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight"
+          className="text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight text-white"
         >
           Welcome to{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 animate-gradient-x">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500">
             Anvaiya Technologies
           </span>
         </motion.h1>
 
-        {/* Subtext (typing style animation simulated with opacity steps) */}
+        {/* Subtext */}
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: [0, 1, 0.8, 1] }}
-          transition={{ delay: 1.5, duration: 2, repeat: Infinity, repeatType: "mirror" }}
+          transition={{
+            delay: 1.5,
+            duration: 2,
+            repeat: Infinity,
+            repeatType: "mirror",
+          }}
           className="text-base sm:text-lg md:text-xl max-w-2xl text-white/90"
         >
           Empowering businesses with{" "}
           <span className="font-semibold text-cyan-300">scalable solutions</span>,{" "}
-          <span className="font-semibold text-purple-300">smart automation</span>,{" "}
-          and <span className="font-semibold text-pink-300">AI-driven growth</span>.
+          <span className="font-semibold text-purple-300">smart automation</span>, and{" "}
+          <span className="font-semibold text-pink-300">AI-driven growth</span>.
         </motion.p>
 
         {/* Glow trail */}
@@ -69,68 +154,6 @@ const Hero = () => {
           style={{ y: yOffset }}
           className="absolute w-[300px] h-[300px] rounded-full bg-cyan-400 blur-3xl opacity-20 -z-10"
         />
-
-        {/* Animated Triangle */}
-        <motion.div
-          initial={{ x: "-100vw", y: "-100vh", scale: 0.5, rotate: -45 }}
-          animate={controls}
-          transition={{
-            duration: 1.2,
-            ease: [0.6, 0.01, -0.05, 0.95],
-            type: "spring",
-            bounce: 0.4,
-          }}
-          whileHover={{
-            scale: 1.05,
-            boxShadow: "0 0 25px rgba(75, 166, 168, 0.6)",
-          }}
-          whileTap={{ scale: 0.95 }}
-          onClick={handleClick}
-         className={`relative z-20 w-60 h-[15.5rem] sm:w-72 sm:h-64 lg:w-80 lg:h-72
-            flex flex-col justify-center items-center
-            [clip-path:polygon(50%_0%,100%_100%,0%_100%)]
-            bg-gradient-to-br from-cyan-500/20 via-purple-500/20 to-pink-500/20
-            border-2 border-cyan-300/50
-            backdrop-blur-xl
-            shadow-[0_8px_32px_rgba(0,0,0,0.35)]
-            overflow-hidden mt-10 cursor-pointer transition-all duration-300`}
-
-        >
-          {/* Second border */}
-          <div
-            className="absolute inset-0 [clip-path:polygon(50%_0%,100%_100%,0%_100%)]
-                       border-2 border-cyan-400 pointer-events-none"
-          />
-
-          {/* Gradient shimmer background inside triangle */}
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-tr from-cyan-400/30 via-purple-400/30 to-pink-400/30 opacity-50"
-            animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
-            transition={{ duration: 8, repeat: Infinity }}
-          >
-            <AnimatedBackground />
-          </motion.div>
-
-          {/* Buttons */}
-          <div className="relative z-10 flex flex-col space-y-4">
-            <motion.a
-              href="#features"
-              whileHover={{ scale: 1.1, y: -3 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-6 py-2 sm:px-8 sm:py-3 bg-cyan-500 text-white font-semibold shadow-md rounded-md hover:bg-cyan-600 transition"
-            >
-              Get Started
-            </motion.a>
-            <motion.a
-              href="#about"
-              whileHover={{ scale: 1.1, y: -3 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-6 py-2 sm:px-8 sm:py-3 bg-gray-700 text-white font-semibold shadow-md rounded-md hover:bg-gray-800 transition"
-            >
-              Learn More
-            </motion.a>
-          </div>
-        </motion.div>
       </div>
 
       {/* Scroll indicator */}
