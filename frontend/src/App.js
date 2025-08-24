@@ -1,18 +1,16 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import Highlights from "./components/Highlights";
-import Features from "./components/Features";
-import About from "./components/About";
-import Contact from "./components/Contact";
-import AnimatedBackground from "./components/AnimatedBackground";
-import Footer from "./components/Footer";
-import Services from "./components/Services";
-import SplashScreen from "./components/SplashScreen";
-import Blogs from "./pages/Blogs";
-import BlogPost from "./components/BlogPost";
+
+// Layout Components
+import Navbar from "./components/layout/Navbar";
+import Footer from "./components/layout/Footer";
+import SplashScreen from "./components/layout/SplashScreen";
+
+// Pages
+import Home from "./pages/Home";
+import Blogs from "./components/blog/BlogPost";
+import BlogPost from "./pages/Blogs";
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -28,15 +26,8 @@ function AnimatedRoutes() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.6 }}
-              className="text-white relative"
             >
-              <AnimatedBackground />
-              <Hero />
-              <Highlights />
-              <Services />
-              <Features />
-              <About />
-              <Contact />
+              <Home />
             </motion.div>
           }
         />
@@ -52,7 +43,7 @@ function App() {
 
   return (
     <Router>
-      <div className="relative min-h-screen text-white">
+      <div className="relative min-h-screen text-white bg-black">
         <AnimatePresence mode="wait">
           {loading ? (
             <motion.div
@@ -84,4 +75,3 @@ function App() {
 }
 
 export default App;
-  

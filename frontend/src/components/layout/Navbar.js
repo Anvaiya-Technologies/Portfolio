@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
-import logoLight from "../pages/assets/img/logo-light.png";
-import logoDark from "../pages/assets/img/logo-dark.png";
-import { useSectionObserver } from "../hooks/useSectionObserver";
+import logoLight from "../..//assets/img/logo-light.png";
+import logoDark from "../../assets/img/logo-dark.png";
+import { useSectionObserver } from "../../hooks/useSectionObserver";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
