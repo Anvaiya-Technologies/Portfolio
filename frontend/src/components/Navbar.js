@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { Link } from "react-router-dom";
 import logoLight from "../pages/assets/img/logo-light.png";
 import logoDark from "../pages/assets/img/logo-dark.png";
 import { useSectionObserver } from "../hooks/useSectionObserver";
@@ -7,10 +8,21 @@ import { useSectionObserver } from "../hooks/useSectionObserver";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [hovered, setHovered] = useState(false);
- const activeSection = useSectionObserver();
+  const activeSection = useSectionObserver();
 
-  const isLightBackground = ["highlights", "features", "about", "services", "contact", "footer"].includes(activeSection) || hovered;
+  // Sections with light backgrounds
+  const lightSections = ["highlights", "features", "about", "services"];
+  const isLightBackground = lightSections.includes(activeSection) || hovered;
   const logoSrc = isLightBackground ? logoDark : logoLight;
+
+  const menuItems = [
+    { label: "Home", href: "/", type: "route" },
+    { label: "Highlights", href: "#highlights", type: "anchor" },
+    { label: "Features", href: "#features", type: "anchor" },
+    { label: "About", href: "#about", type: "anchor" },
+    { label: "Blogs", href: "/blogs", type: "route" },
+    { label: "Contact", href: "#contact", type: "anchor" },
+  ];
 
   return (
     <nav
@@ -30,24 +42,43 @@ const Navbar = () => {
           />
         </a>
 
+        {/* Desktop Menu */}
         <ul className="hidden md:flex space-x-6 text-sm font-medium">
-          {["Home", "Highlights", "Features", "About", "Contact"].map((item, idx) => (
+          {menuItems.map((item, idx) => (
             <li key={idx}>
-              <a
-                href={`#${item.toLowerCase()}`}
-                className={`scroll-mt-navbar transition-colors duration-300 hover:underline ${
-                  isLightBackground ? "text-gray-800 hover:text-brand" : "text-white hover:text-brand"
-                }`}
-              >
-                {item}
-              </a>
+              {item.type === "route" ? (
+                <Link
+                  to={item.href}
+                  className={`transition-colors duration-300 hover:underline ${
+                    isLightBackground
+                      ? "text-gray-800 hover:text-brand"
+                      : "text-white hover:text-brand"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              ) : (
+                <a
+                  href={item.href}
+                  className={`scroll-mt-navbar transition-colors duration-300 hover:underline ${
+                    isLightBackground
+                      ? "text-gray-800 hover:text-brand"
+                      : "text-white hover:text-brand"
+                  }`}
+                >
+                  {item.label}
+                </a>
+              )}
             </li>
           ))}
         </ul>
 
+        {/* Mobile Menu Button */}
         <button
           className={`md:hidden transition-colors duration-300 focus:outline-none ${
-            isLightBackground ? "text-gray-800 hover:text-brand" : "text-white hover:text-brand"
+            isLightBackground
+              ? "text-gray-800 hover:text-brand"
+              : "text-white hover:text-brand"
           }`}
           onClick={() => setIsOpen(!isOpen)}
         >
@@ -55,18 +86,29 @@ const Navbar = () => {
         </button>
       </div>
 
+      {/* Mobile Menu */}
       {isOpen && (
         <div className="md:hidden bg-white shadow-md transition-all duration-300">
           <ul className="flex flex-col items-center space-y-4 py-6">
-            {["Home", "Highlights", "Features", "About", "Contact"].map((item, idx) => (
+            {menuItems.map((item, idx) => (
               <li key={idx}>
-                <a
-                  href={`#${item.toLowerCase()}`}
-                  onClick={() => setIsOpen(false)}
-                  className="text-gray-800 hover:text-brand transition-colors duration-300 hover:underline scroll-mt-navbar"
-                >
-                  {item}
-                </a>
+                {item.type === "route" ? (
+                  <Link
+                    to={item.href}
+                    onClick={() => setIsOpen(false)}
+                    className="text-gray-800 hover:text-brand transition-colors duration-300 hover:underline"
+                  >
+                    {item.label}
+                  </Link>
+                ) : (
+                  <a
+                    href={item.href}
+                    onClick={() => setIsOpen(false)}
+                    className="text-gray-800 hover:text-brand transition-colors duration-300 hover:underline scroll-mt-navbar"
+                  >
+                    {item.label}
+                  </a>
+                )}
               </li>
             ))}
           </ul>
