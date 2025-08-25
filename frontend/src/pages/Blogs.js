@@ -1,9 +1,46 @@
 import React from "react";
 import { useParams, Link } from "react-router";
-import { motion } from "framer-motion"; // Import motion from framer-motion
+import { motion } from "framer-motion";
 
 // We'll use the same blogPosts array, but in a real app this would come from an API
 import { blogPosts } from "../components/blog/BlogPost";
+
+// Utility to render rich structured content
+function renderContent(blocks) {
+  return blocks.map((block, i) => {
+    switch (block.type) {
+      case "heading": {
+        const Tag = `h${block.level}`;
+        return (
+          <Tag
+            key={i}
+            className={`mt-8 mb-4 font-bold text-gray-800`}
+          >
+            {block.value}
+          </Tag>
+        );
+      }
+      case "paragraph":
+        return (
+          <p key={i} className="mb-4 text-gray-700 leading-relaxed">
+            {block.value}
+          </p>
+        );
+      case "list":
+        return block.style === "unordered" ? (
+          <ul key={i} className="list-disc ml-6 mb-4 text-gray-700">
+            {block.items.map((item, j) => <li key={j}>{item}</li>)}
+          </ul>
+        ) : (
+          <ol key={i} className="list-decimal ml-6 mb-4 text-gray-700">
+            {block.items.map((item, j) => <li key={j}>{item}</li>)}
+          </ol>
+        );
+      default:
+        return null;
+    }
+  });
+}
 
 const BlogPost = () => {
   const { slug } = useParams();
@@ -16,8 +53,8 @@ const BlogPost = () => {
       opacity: 1,
       y: 0,
       transition: {
-        staggerChildren: 0.2, // Stagger the animation of child elements
-        when: "beforeChildren", // Start parent animation before children
+        staggerChildren: 0.2,
+        when: "beforeChildren",
       },
     },
   };
@@ -130,15 +167,7 @@ const BlogPost = () => {
             </motion.div>
 
             <motion.div className="prose max-w-none" variants={itemVariants}>
-              <p className="text-gray-700 leading-relaxed mb-4">
-                {post.content}
-              </p>
-              <p className="text-gray-700 leading-relaxed mb-4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam at mauris vel dolor ullamcorper facilisis. Praesent lobortis lacus et eros consectetur, at aliquet nunc pharetra. Phasellus euismod purus id lectus tempus, a posuere nunc interdum.
-              </p>
-              <p className="text-gray-700 leading-relaxed">
-                In a real application, this would be the full blog post content fetched from a database or CMS. The content would include proper formatting, images, and other rich media elements.
-              </p>
+              {renderContent(post.content)}
             </motion.div>
           </div>
         </motion.div>
