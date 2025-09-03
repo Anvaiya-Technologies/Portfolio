@@ -33,15 +33,17 @@ const Footer = () => {
           </h3>
           <div className="flex justify-center md:justify-start space-x-4">
             {[
-              { icon: FaWhatsapp, color: "bg-green-500" },
-              { icon: FaFacebook, color: "bg-blue-600" },
-              { icon: FaLinkedinIn, color: "bg-blue-700" },
-              { icon: FaInstagram, color: "bg-pink-600" },
-              { icon: FaTwitter, color: "bg-sky-500" },
-            ].map(({ icon: Icon, color }, idx) => (
+              { icon: FaWhatsapp, color: "bg-green-500", link: "https://wa.me/your-number" },
+              { icon: FaFacebook, color: "bg-blue-600", link: "https://www.facebook.com/profile.php?id=61579594349032" },
+              { icon: FaLinkedinIn, color: "bg-blue-700", link: "https://www.linkedin.com/in/anvaiya-technologies-84a46437a/" },
+              { icon: FaInstagram, color: "bg-pink-600", link: "https://www.instagram.com/anvaiyatech/" },
+              { icon: FaTwitter, color: "bg-sky-500", link: "https://x.com/AnvaiyaTech" },
+            ].map(({ icon: Icon, color, link }, idx) => (
               <a
                 key={idx}
-                href="#"
+                href={link}
+                target="_blank"
+                rel="noopener noreferrer"
                 className={`${color} p-3 rounded-full hover:scale-105 transition-transform`}
               >
                 <Icon className="text-white text-lg" />
