@@ -2,10 +2,7 @@ import React from "react";
 
 const Contact = () => {
   return (
-    <section
-      id="contact"
-      className="relative py-20 bg-transparent text-white"
-    >
+    <section id="contact" className="relative py-20 bg-transparent text-white">
       {/* Optional: Overlay to dim animated background */}
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm z-0"></div>
 
@@ -99,7 +96,11 @@ const Contact = () => {
 
           {/* Hidden inputs for formsubmit.co */}
           <input type="hidden" name="_captcha" value="false" />
-          <input type="hidden" name="_next" value="http://localhost:3000/" />
+          <input
+            type="hidden"
+            name="_next"
+            value={window.location.origin + "/#contact"}
+          />
         </form>
       </div>
     </section>
