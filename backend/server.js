@@ -1,28 +1,25 @@
-import express from "express";
-import mongoose from "mongoose";
-import cors from "cors";
-import dotenv from "dotenv";
+const express = require('express');
+const cors = require('cors');
+const config = require('./config');
 
-dotenv.config();
 const app = express();
-
-// Middleware
-app.use(cors());
 app.use(express.json());
 
-// MongoDB connection
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
-.then(() => console.log("✅ MongoDB Connected"))
-.catch(err => console.log(err));
+app.use(cors({
+  origin: (origin, cb) => {
+    if (!origin) return cb(null, true); // Tools like curl/Postman
+    if (config.corsAllowedOrigins.includes(origin)) return cb(null, true);
+    return cb(new Error('CORS not allowed: ' + origin));
+  },
+  credentials: true
+}));
 
-// Sample route
-app.get("/", (req, res) => {
-    res.send("API is running...");
+app.get('/health', (_req, res) => {
+  res.json({ status: 'ok', env: config.env });
 });
 
-// Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+// TODO: Add real routes here
+
+app.listen(config.port, () =>
+  console.log(`API listening on port ${config.port}`)
+);
