@@ -99,7 +99,8 @@ const Contact = () => {
 
           {/* Hidden inputs for formsubmit.co */}
           <input type="hidden" name="_captcha" value="false" />
-          <input type="hidden" name="_next" value="http://localhost:3000/" />
+          <input type="hidden" name="_next" value={window.location.href} />
+
         </form>
       </div>
     </section>
