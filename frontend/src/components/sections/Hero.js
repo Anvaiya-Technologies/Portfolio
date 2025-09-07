@@ -1,80 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { motion, useAnimation, useScroll, useTransform } from "framer-motion";
-
-// Your AnimatedBackground component
-const AnimatedBackground = () => {
-  const canvasRef = React.useRef(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
-
-    function resizeCanvas() {
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-    }
-    window.addEventListener("resize", resizeCanvas);
-    resizeCanvas();
-
-    const lines = [];
-    const lineCount = 30;
-
-    for (let i = 0; i < lineCount; i++) {
-      const x = Math.random() * canvas.width;
-      const y = Math.random() * canvas.height;
-      const speed = 0.5 + Math.random();
-      lines.push({ x, y, speed });
-    }
-
-    function draw() {
-      ctx.fillStyle = "rgba(10, 10, 30, 0.15)";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      lines.forEach((line) => {
-        ctx.beginPath();
-        ctx.moveTo(line.x, line.y);
-        ctx.lineTo(line.x + 200, line.y + 200);
-        ctx.strokeStyle = "rgba(75, 166, 168, 0.4)";
-        ctx.lineWidth = 1.5;
-        ctx.stroke();
-
-        ctx.beginPath();
-        ctx.arc(line.x + 100, line.y + 100, 3, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(75, 166, 168, 0.8)";
-        ctx.fill();
-
-        line.x -= line.speed;
-        line.y -= line.speed;
-
-        if (line.x < -200 || line.y < -200) {
-          line.x = canvas.width;
-          line.y = Math.random() * canvas.height;
-        }
-      });
-
-      requestAnimationFrame(draw);
-    }
-
-    draw();
-
-    return () => window.removeEventListener("resize", resizeCanvas);
-  }, []);
-
-  return (
-    <div className="absolute inset-0">
-      <canvas ref={canvasRef} className="w-full h-full" />
-    </div>
-  );
-};
-
+import AnimatedBackground from "./AnimatedBackground";
+import DiagonalDivider from "../transitions/DiagonalDivider";
 const Hero = () => {
   const controls = useAnimation();
-
-  // Scroll sync
   const { scrollYProgress } = useScroll();
   const yOffset = useTransform(scrollYProgress, [0, 1], [0, 100]);
 
-  // Auto-animate on load
   useEffect(() => {
     const timer = setTimeout(() => {
       controls.start({
@@ -100,7 +32,7 @@ const Hero = () => {
       id="hero"
       className="relative min-h-screen flex flex-col justify-center items-center text-center px-6 pt-20 pb-16 overflow-hidden"
     >
-      {/* Main Background */}
+      {/* Background */}
       <div className="absolute inset-0 bg-gray-900">
         <AnimatedBackground />
       </div>
@@ -117,12 +49,32 @@ const Hero = () => {
         transition={{ duration: 8, repeat: Infinity }}
       />
 
+      {/* Real animated triangle pulse */}
+      <motion.svg
+        width="40"
+        height="40"
+        viewBox="0 0 100 100"
+        className="absolute top-10 sm:top-16 left-1/2 transform -translate-x-1/2 z-10"
+        animate={{ scale: [1, 1.2, 1], opacity: [0.6, 1, 0.6] }}
+        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <polygon points="50,15 90,85 10,85" fill="url(#grad)" />
+        <defs>
+          <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#06b6d4" />
+            <stop offset="50%" stopColor="#3b82f6" />
+            <stop offset="100%" stopColor="#a855f7" />
+          </linearGradient>
+        </defs>
+      </motion.svg>
+
+      {/* Content */}
       <div className="max-w-4xl mx-auto flex flex-col items-center space-y-6 relative z-10">
         {/* Heading */}
         <motion.h1
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2, duration: 0.6 }}
+          transition={{ type: "spring", stiffness: 120, damping: 10 }}
           className="text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight text-white"
         >
           Welcome to{" "}
@@ -131,12 +83,20 @@ const Hero = () => {
           </span>
         </motion.h1>
 
+        {/* Glowing divider bar */}
+        <motion.div
+          className="w-24 h-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 rounded-full mt-2 animate-pulse"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5 }}
+        />
+
         {/* Subtext */}
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: [0, 1, 0.8, 1] }}
           transition={{
-            delay: 1.5,
+            delay: 1.8,
             duration: 2,
             repeat: Infinity,
             repeatType: "mirror",
@@ -167,6 +127,13 @@ const Hero = () => {
         </div>
         <span className="text-sm mt-2">Scroll</span>
       </motion.div>
+
+  {/* Cinematic gradient fade into next section */}
+<div className="absolute bottom-0 left-0 w-full h-32 z-10 pointer-events-none">
+  <div className="w-full h-full bg-gradient-to-b from-transparent via-[#0f172a]/60 to-[#0f172a]" />
+</div>
+
+
     </section>
   );
 };
