@@ -101,6 +101,8 @@ const Contact = () => {
             name="_next"
             value={window.location.origin + "/#contact"}
           />
+          <input type="hidden" name="_next" value={window.location.href} />
+
         </form>
       </div>
     </section>
