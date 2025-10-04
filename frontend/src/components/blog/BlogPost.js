@@ -3,169 +3,224 @@ import { Link } from "react-router";
 import { Helmet } from "react-helmet";
 
 // Sample blog data - in a real app, this would come from an API or CMS
-const blogPosts = [
+export const blogPosts = [
   {
     id: 1,
-    title: "Getting Started with React: Your First Application",
-    excerpt:
-      "Dive into the world of React, the leading JavaScript library for building dynamic user interfaces. Learn the core concepts and build your first application from scratch.",
-    content:
-      "### What is React?\nReact is a powerful, open-source JavaScript library developed by Facebook for building user interfaces. It's not a full-fledged framework like Angular or Vue, but rather a library focused on the view layer of your application. This makes it incredibly flexible and easy to integrate into existing projects. What sets React apart is its component-based architecture and use of a Virtual DOM, which allows for highly efficient updates and a snappy user experience.\n\n---\n\n### The Building Blocks: Core Concepts\nThink of a React application as a collection of reusable, independent pieces—just like Lego blocks. These are called components. Each component is a self-contained piece of UI, like a button, a navigation bar, or an entire user profile card. By composing these components together, you can build complex and scalable user interfaces. This approach makes your code cleaner, more organized, and easier to maintain.\n\n* JSX: React uses JSX, a syntax extension for JavaScript that lets you write HTML-like code directly within your JavaScript files. It may look a bit unusual at first, but it makes building and visualizing your UI incredibly intuitive.\n\n* State and Props: These are the two primary ways to handle data in a React application. Props (short for properties) are used to pass data from a parent component down to a child component. Think of them as function arguments—they're read-only and help maintain a clear, unidirectional flow of data. State, on the other hand, is data that a component manages internally and can change over time. When a component's state is updated, React automatically re-renders the component to reflect the new data, keeping your UI in sync.\n\n---\n\n### Let's Build a Simple React App\nReady to get your hands dirty? Follow these steps to set up your first React project using Vite, a modern build tool that is much faster than the older Create React App.\n\nPrerequisites: Make sure you have Node.js and npm (or pnpm, yarn) installed on your machine. A code editor like VS Code is also highly recommended.\n\nStep 1: Create a new project\nOpen your terminal and run the following command. This will create a new React project with a clean, fast setup. Replace my-react-app with your desired project name.\n\nbash\nnpm create vite@latest my-react-app -- --template react\n\n\nStep 2: Install dependencies and start the server\nNavigate into your new project folder and install the necessary packages. Then, start the development server.\n\nbash\ncd my-react-app\nnpm install\nnpm run dev\n\n\nYour first React app is now running! Open your browser and go to http://localhost:5173 to see it in action.\n\n---\n\n### Creating a Counter Component\nNow let's build something interactive. We'll create a simple counter component that uses state to track a number and a button to increment it.\n\n1. Create the Counter component:\nInside your project's src folder, create a new file named Counter.jsx. Add the following code:\n\njsx\nimport { useState } from 'react';\n\nfunction Counter() {\n  const [count, setCount] = useState(0);\n\n  return (\n    <div>\n      <p>The current count is: {count}</p>\n      <button onClick={() => setCount(count + 1)}>\n        Increment\n      </button>\n    </div>\n  );\n}\n\nexport default Counter;\n\n\n2. Use the component in your main app:\nNow, open src/App.jsx and replace its content with the following to import and render your new Counter component.\n\njsx\nimport Counter from './Counter';\nimport './App.css'; // Optional: if you want to keep the default styling\n\nfunction App() {\n  return (\n    <div className=\"App\">\n      <h1>Welcome to My First React App!</h1>\n      <Counter />\n    </div>\n  );\n}\n\nexport default App;\n\n\nSave your files, and you'll see your counter live in the browser. You've just built your first stateful component! This is the fundamental pattern for building dynamic UIs in React, and you're now ready to explore more advanced topics like component lifecycle, hooks, and routing.",
+    title: "The Ultimate Guide to Choosing a Web Development Framework",
+    slug: "ultimate-guide-web-frameworks",
+    date: "August, 2025",
+    author: "Him Kishan Das",
     image:
       "https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
-    date: "May 15, 2023",
-    author: "Jane Smith",
-    slug: "getting-started-with-react",
-  },
-  {
-    id: 2,
-    title: "CSS Tips for Modern Web Design",
-    excerpt:
-      "Discover advanced CSS techniques that will take your web design skills to the next level.",
-    content: "Full content for CSS Tips...",
-    image:
-      "https://images.unsplash.com/photo-1523437113738-bbd3cc89fb19?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80",
-    date: "June 2, 2023",
-    author: "John Doe",
-    slug: "css-tips-for-modern-web-design",
-  },
-  {
-    id: 3,
-    title: "Introduction to Node.js",
-    excerpt:
-      "Explore the world of server-side JavaScript with Node.js and learn how to build scalable applications.",
-    content: "Full content for Introduction to Node.js...",
-    image:
-      "https://images.unsplash.com/photo-1627398242454-45a1465c2479?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80",
-    date: "June 10, 2023",
-    author: "Alex Johnson",
-    slug: "introduction-to-nodejs",
-  },
-  {
-    id: 4,
-    title: "UX Design Principles",
-    excerpt:
-      "Learn the fundamental principles of user experience design that will help you create intuitive interfaces.",
-    content: "Full content for UX Design Principles...",
-    image:
-      "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
-    date: "June 18, 2023",
-    author: "Sarah Wilson",
-    slug: "ux-design-principles",
-  },
-  {
-    id: 5,
-    title: "State Management in React",
-    excerpt:
-      "Understanding different state management solutions in React and when to use each approach.",
-    content: "Full content for State Management in React...",
-    image:
-      "https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
-    date: "July 5, 2023",
-    author: "Michael Brown",
-    slug: "state-management-in-react",
-  },
-  {
-    id: 6,
-    title: "Web Performance Optimization",
-    excerpt:
-      "Techniques and strategies to make your websites faster and more efficient for better user experience.",
-    content: "Full content for Web Performance Optimization...",
-    image:
-      "https://images.unsplash.com/photo-1533750349088-cd871a92f312?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
-    date: "July 22, 2023",
-    author: "Emily Chen",
-    slug: "web-performance-optimization",
-  },
-  // Adding more posts to demonstrate pagination
-  {
-    id: 7,
-    title: "JavaScript ES6 Features You Should Know",
-    excerpt:
-      "Explore the most important ES6 features that every JavaScript developer should master.",
-    content: "Full content for JavaScript ES6 Features...",
-    image:
-      "https://images.unsplash.com/photo-1627398242454-45a1465c2479?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwa90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80",
-    date: "August 5, 2023",
-    author: "David Wilson",
-    slug: "javascript-es6-features",
-  },
-  {
-    id: 8,
-    title: "Building Responsive Layouts with CSS Grid",
-    excerpt:
-      "Learn how to create flexible and responsive layouts using CSS Grid.",
-    content: "Full content for CSS Grid...",
-    image:
-      "https://images.unsplash.com/photo-1523437113738-bbd3cc89fb19?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80",
-    date: "August 15, 2023",
-    author: "Lisa Johnson",
-    slug: "responsive-layouts-css-grid",
-  },
-  {
-    id: 9,
-    title: "Introduction to TypeScript",
-    excerpt:
-      "Discover how TypeScript can help you write more robust and maintainable JavaScript code.",
-    content: "Full content for TypeScript...",
-    image:
-      "https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
-    date: "September 2, 2023",
-    author: "Robert Davis",
-    slug: "introduction-to-typescript",
-  },
-  {
-    id: 10,
-    title: "API Design Best Practices",
-    excerpt:
-      "Learn the principles of designing clean, intuitive, and developer-friendly APIs.",
-    content: "Full content for API Design...",
-    image:
-      "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
-    date: "September 15, 2023",
-    author: "Maria Garcia",
-    slug: "api-design-best-practices",
-  },
-  {
-    id: 11,
-    title: "Mobile-First Web Development",
-    excerpt:
-      "Strategies and techniques for building websites with a mobile-first approach.",
-    content: "Full content for Mobile-First Development...",
-    image:
-      "https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
-    date: "October 1, 2023",
-    author: "James Miller",
-    slug: "mobile-first-web-development",
-  },
-  {
-    id: 12,
-    title: "Introduction to GraphQL",
-    excerpt:
-      "Learn how GraphQL provides a more efficient alternative to REST APIs.",
-    content: "Full content for GraphQL...",
-    image:
-      "https://images.unsplash.com/photo-1533750349088-cd871a92f312?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
-    date: "October 15, 2023",
-    author: "Jennifer Lee",
-    slug: "introduction-to-graphql",
-  },
-  {
-    id: 13,
-    title: "CSS Variables: Power and Flexibility",
-    excerpt:
-      "Discover how CSS custom properties can revolutionize your styling workflow.",
-    content: "Full content for CSS Variables...",
-    image:
-      "https://images.unsplash.com/photo-1523437113738-bbd3cc89fb19?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80",
-    date: "November 1, 2023",
-    author: "Thomas Clark",
-    slug: "css-variables-power-flexibility",
+    content: [
+      {
+        type: "heading",
+        level: 2,
+        value: "INTRODUCTION",
+      },
+      {
+        type: "paragraph",
+        value:
+          `Imagine you're opening a new restaurant. You could build everything from scratch—design the kitchen layout, invent your own recipes, train staff with custom procedures—but that would take ages and cost a fortune. Instead, you might choose a proven franchise model that gives you a blueprint: kitchen setup, menu, training manuals, even marketing strategies. That’s exactly what a web development framework does for your app.
+In the rapidly evolving universe of web development, selecting the right framework is crucial to getting your project off the ground. Frameworks are the foundation of most modern web apps—they provide a template structure, enforce best practices, and abstract away much of the complexity required to get something production-ready. Whether you’re working on a simple single-page app or a high-traffic platform, the framework you choose will shape your codebase, influence your team’s workflow, and directly impact your app’s performance and scalability.
+Just like choosing the right franchise for your restaurant depends on your goals, budget, and audience, selecting the right framework depends on your project’s scope, your team’s expertise, and how you envision maintaining and growing the app over time. Some frameworks offer speed and flexibility, while others provide structure and enterprise-level features. The key is understanding what each one brings to the table—and how it aligns with your vision.`
+      },
+      {
+        type: "heading",
+        level: 2,
+        value: "DEEP DIVE INTO THE TOP FRAMEWORKS",
+      },
+      {
+        type: "paragraph",
+        value:
+          `Choosing the right JavaScript framework is one of the most critical decisions a developer or business can make. The right choice accelerates development, while the wrong one can lead to bottlenecks and technical debt. In this comprehensive guide, we break down the three giants of frontend development: React, Angular, and Vue.js. We’ll explore their key features, pros, cons, and ideal use cases to help you select the perfect tool for your next project.`
+      },
+      // REACT SECTION
+      {
+        type: "heading",
+        level: 3,
+        value: "REACT: THE FLEXIBLE UI LIBRARY",
+      },
+      {
+        type: "paragraph",
+        value:
+          `Developed and maintained by Facebook, React isn’t a full framework but a powerful JavaScript library specifically designed for building modern, dynamic user interfaces. It dominates the landscape for single-page applications (SPAs).`,
+      },
+      {
+        type: "heading",
+        level: 4,
+        value: "Key Features",
+      },
+      {
+        type: "list",
+        style: "unordered",
+        items: [
+          "Component-Based Architecture: Build encapsulated components that manage their own state, then compose them to make complex UIs.",
+          "Virtual DOM: Creates a virtual representation of the DOM in memory, leading to highly efficient updates and rendering, which boosts performance.",
+          "Rich Ecosystem: While React itself is lean, its massive community offers tools like Redux for state management and React Router for navigation.",
+        ],
+      },
+      {
+        type: "heading",
+        level: 4,
+        value: "Pros",
+      },
+      {
+        type: "list",
+        style: "unordered",
+        items: [
+          "Flexible and Modular: Lets you choose your own libraries for routing, state management, etc.",
+          "Large Community: Extensive support, tutorials, and job market.",
+          "Great Performance: Thanks to Virtual DOM.",
+        ],
+      },
+      {
+        type: "heading",
+        level: 4,
+        value: "Cons",
+      },
+      {
+        type: "list",
+        style: "unordered",
+        items: [
+          "Not a Full Framework: You need to select and integrate other libraries for routing, state, etc.",
+          "Fast Pace: The ecosystem changes quickly, which may require frequent updates.",
+          "Boilerplate: Can require more code and setup for larger apps.",
+        ],
+      },
+      // ANGULAR SECTION
+      {
+        type: "heading",
+        level: 3,
+        value: "ANGULAR: THE ENTERPRISE-GRADE FRAMEWORK",
+      },
+      {
+        type: "paragraph",
+        value:
+          `Angular is a full-fledged, TypeScript-based framework developed by Google. It is a complete solution for building large-scale, enterprise-grade applications, providing everything you need out of the box.`,
+      },
+      {
+        type: "heading",
+        level: 4,
+        value: "Key Features",
+      },
+      {
+        type: "list",
+        style: "unordered",
+        items: [
+          "Two-Way Data Binding: Automatically synchronizes data between the model and view components, reducing development time.",
+          "Dependency Injection: Makes applications more efficient, modular, and easier to test and maintain.",
+          "Full-Featured Framework: Includes built-in solutions for routing, HTTP client, form handling, and more.",
+        ],
+      },
+      {
+        type: "heading",
+        level: 4,
+        value: "Pros",
+      },
+      {
+        type: "list",
+        style: "unordered",
+        items: [
+          "All-in-One Solution: Provides a standardized, cohesive structure, reducing the need to make decisions about supporting libraries.",
+          "TypeScript by Default: Offers strong typing, which enhances code quality, scalability, and catches errors early.",
+          "Long-Term Support (LTS): Google offers extended support, making it a safe bet for long-lived, complex projects.",
+        ],
+      },
+      {
+        type: "heading",
+        level: 4,
+        value: "Cons",
+      },
+      {
+        type: "list",
+        style: "unordered",
+        items: [
+          "Steep Learning Curve: Its complexity and comprehensive nature make it more difficult to learn than React or Vue.",
+          "Verbosity: Requires more code to accomplish the same tasks compared to other frameworks, which can impact development speed.",
+        ],
+      },
+      // VUE SECTION
+      {
+        type: "heading",
+        level: 3,
+        value: "VUE.JS: THE PROGRESSIVE FRAMEWORK",
+      },
+      {
+        type: "paragraph",
+        value:
+          `Vue.js is a progressive JavaScript framework created by Evan You. It is renowned for its gentle learning curve, simplicity, and flexibility, allowing you to scale from a lightweight library to a full framework as needed.`,
+      },
+      {
+        type: "heading",
+        level: 4,
+        value: "Key Features",
+      },
+      {
+        type: "list",
+        style: "unordered",
+        items: [
+          "Reactive Data Binding: A simple and intuitive system for keeping the view and model in sync.",
+          "Component-Based Structure: Like React, it uses a component-based architecture for building reusable UI elements.",
+          "Gentle Integration: Can be easily dropped into projects without a complex build process, making it great for enhancing existing sites.",
+        ],
+      },
+      {
+        type: "heading",
+        level: 4,
+        value: "Pros",
+      },
+      {
+        type: "list",
+        style: "unordered",
+        items: [
+          "Easy to Learn: Clear documentation and simple syntax make it the most beginner-friendly option.",
+          "Highly Versatile: Can be used for everything from small, interactive parts of a page to large SPAs.",
+          "Optimal Performance: Offers performance comparable to React due to a similar Virtual DOM implementation.",
+        ],
+      },
+      {
+        type: "heading",
+        level: 4,
+        value: "Cons",
+      },
+      {
+        type: "list",
+        style: "unordered",
+        items: [
+          "Smaller Ecosystem: While growing rapidly, its ecosystem of libraries and tools is not as vast as React's.",
+          "Less Corporate Backing: Originally developed by an individual, it has a smaller market share in large enterprises compared to React/Angular, though it is now backed by a strong community.",
+        ],
+      },
+      // CONCLUSION
+      {
+        type: "heading",
+        level: 2,
+        value: "CONCLUSION",
+      },
+      {
+        type: "paragraph",
+        value:
+          `There is no single "best" framework—only the best framework for you. Your choice ultimately depends on your project's specific requirements, your team's expertise, and your long-term vision.`,
+      },
+      {
+        type: "paragraph",
+        value: "To make your decision clear, let's break it down one final time:",
+      },
+      {
+        type: "list",
+        style: "unordered",
+        items: [
+          "Choose React if: You need maximum flexibility and a vast ecosystem. It's ideal for building highly dynamic, single-page applications (SPAs) like dashboards or social media feeds. If your team values choosing their own tools and you prioritize a massive job market and community support, React is the leading choice.",
+          "Choose Angular if: You are building a large-scale, enterprise-level application. If you need a powerful, all-in-one solution with built-in everything, strong typing with TypeScript, and a structured environment for big teams, Angular is built for you. It’s the definition of a full-featured framework.",
+          "Choose Vue.js if: You value a gentle learning curve and simplicity. It's perfect for quick prototyping, smaller projects, or seamlessly enhancing existing applications. Vue offers a fantastic balance of performance and ease of use, making it a favorite for startups and developers who want to get up and running quickly.",
+        ],
+      },
+    ],
   },
 ];
 
-// Blogs.js - Add this export statement at the bottom
-export { blogPosts };
+
 
 const BLOGS_PER_PAGE = 12;
 
