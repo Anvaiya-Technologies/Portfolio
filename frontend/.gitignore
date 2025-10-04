@@ -6,6 +6,20 @@
 /.pnp
 .pnp.js
 
+# Frontend env files
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+# Backend env files (future)
+server/.env
+server/.env.local
+server/.env.development.local
+server/.env.production.local
+
+
 # testing
 /coverage
 
