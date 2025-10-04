@@ -126,14 +126,21 @@ const Contact = () => {
     setStatus(null);
     setLoading(true);
     try {
+
+// IMPORTANT: Your backend runs on port 3001, not 3000
+      const API_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001';
+      const endpoint = `${API_URL}/api/contact`;
+      
+      console.log('Making request to:', endpoint);
+
       // change base URL if your API is on a different host
-      const res = await fetch('/api/contact', {
+      const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: form.name,
           email: form.email,
-          phone: form.number,
+          phoneNumber: form.number,
           message: form.message
         })
       });
