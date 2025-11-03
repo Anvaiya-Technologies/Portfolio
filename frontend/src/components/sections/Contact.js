@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 /**
  * Contact component that only embeds a Google Form (Google Forms UI).
