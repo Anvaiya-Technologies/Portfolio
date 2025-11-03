@@ -1,109 +1,91 @@
 import React from "react";
 
+/**
+ * Contact component that only embeds a Google Form (Google Forms UI).
+ *
+ * Usage:
+ * 1. Create your form at https://forms.google.com.
+ * 2. Click "Send" -> "<>" (embed) and copy the iframe src URL (it looks like:
+ *    https://docs.google.com/forms/d/e/FORM_ID/viewform?embedded=true).
+ * 3. Set that URL in an environment variable named REACT_APP_GOOGLE_FORM_URL
+ *    or replace the default below.
+ *
+ * Notes:
+ * - The Google Form handles validation and submission on Google's side.
+ * - Some browsers or privacy extensions may block cross-domain iframes. A direct
+ *   link fallback is provided so users can open the form in a new tab.
+ */
+
 const Contact = () => {
+  // You can set this in your .env as:
+  // REACT_APP_GOOGLE_FORM_URL="https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform?embedded=true"
+  const GOOGLE_FORM_URL = process.env.REACT_APP_GOOGLE_FORM_URL || "https://docs.google.com/forms/d/e/1FAIpQLSfpQOufdCbssXsZ5ybMvGa-P_MDEpxWUI2elOxp9WmEBR1T1Q/viewform?usp=dialog_embedded=true";
+
+  const isPlaceholder = GOOGLE_FORM_URL.includes("YOUR_FORM_ID") || GOOGLE_FORM_URL.trim() === "";
+
   return (
     <section id="contact" className="relative py-20 bg-transparent text-white">
-      {/* Optional: Overlay to dim animated background */}
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm z-0"></div>
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm z-0" />
 
       <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
         <h2 className="text-4xl font-bold text-white mb-6">Get in Touch</h2>
-        <p className="text-lg text-white/90 mb-10">
-          We’d love to hear from you! Fill out the form below.
+        <p className="text-lg text-white/90 mb-6">
+          We use Google Forms for messages — fill it out below.
         </p>
 
-        <form
-          action="https://formsubmit.co/anvaiyatechnologies@gmail.com"
-          method="POST"
-          className="relative z-10 max-w-lg mx-auto space-y-6 text-left bg-white/5 backdrop-blur-md p-8 rounded-2xl shadow-[0_0_40px_rgba(0,255,255,0.3)] border border-cyan-400/30"
-        >
-          <div>
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-white mb-2"
-            >
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="Name"
-              placeholder="Enter your name"
-              required
-              className="w-full p-3 rounded-lg bg-gray-900 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-            />
+        <div className="relative z-10 max-w-4xl mx-auto bg-white/5 p-4 rounded-2xl border border-white/10">
+          <div className="mb-3 text-sm text-white/80">
+            Embedded Google Form — it will use Google Forms' UI and handle validation/submission.
           </div>
 
-          <div>
-            <label
-              htmlFor="number"
-              className="block text-sm font-medium text-white mb-2"
-            >
-              Phone Number
-            </label>
-            <input
-              type="tel"
-              id="number"
-              name="Phone Number"
-              placeholder="Enter your phone number"
-              required
-              className="w-full p-3 rounded-lg bg-gray-900 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-            />
-          </div>
+          {isPlaceholder ? (
+            <div className="p-6 bg-rose-800/10 rounded-lg border border-rose-400/10 text-rose-300">
+              <p className="mb-2">No Google Form configured yet.</p>
+              <p className="text-sm text-white/70">
+                To embed your form, set the environment variable REACT_APP_GOOGLE_FORM_URL to the embed
+                URL from Google Forms (the src attribute, it should include "embedded=true"), then restart
+                your dev server. Example:
+              </p>
+              <pre className="mt-3 p-3 bg-black/30 text-xs rounded">{`REACT_APP_GOOGLE_FORM_URL="https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform?embedded=true"`}</pre>
+            </div>
+          ) : (
+            <>
+              <div className="w-full" style={{ minHeight: 500 }}>
+                <iframe
+                  title="Google Form"
+                  src={GOOGLE_FORM_URL}
+                  width="100%"
+                  height="800"
+                  frameBorder="0"
+                  marginHeight="0"
+                  marginWidth="0"
+                  className="rounded-lg border border-white/10"
+                  allowFullScreen
+                >
+                  Loading…
+                </iframe>
+              </div>
 
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-white mb-2"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="Email"
-              placeholder="Enter your email"
-              required
-              className="w-full p-3 rounded-lg bg-gray-900 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-            />
-          </div>
+              <div className="mt-4 text-sm text-white/70">
+                If the embedded form does not appear, open it in a new tab:
+                <a
+                  href={GOOGLE_FORM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ml-2 text-cyan-300 hover:underline"
+                >
+                  Open Google Form
+                </a>
+              </div>
 
-          <div>
-            <label
-              htmlFor="message"
-              className="block text-sm font-medium text-white mb-2"
-            >
-              Your Message
-            </label>
-            <textarea
-              id="message"
-              name="Message"
-              rows="5"
-              placeholder="Type your message here..."
-              required
-              className="w-full p-3 rounded-lg bg-gray-900 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-            ></textarea>
-          </div>
-
-          <div className="text-center">
-            <button
-              type="submit"
-              className="bg-cyan-500 text-white px-8 py-3 rounded-lg shadow-md hover:bg-cyan-600 transition font-medium"
-            >
-              Send Message
-            </button>
-          </div>
-
-          {/* Hidden inputs for formsubmit.co */}
-          <input type="hidden" name="_captcha" value="false" />
-          <input
-            type="hidden"
-            name="_next"
-            value={window.location.origin + "/#contact"}
-          />
-          <input type="hidden" name="_next" value={window.location.href} />
-
-        </form>
+              <p className="mt-3 text-xs text-white/60">
+                Note: Some browsers or extensions block third-party iframes. If your users report issues,
+                consider linking directly to the form or instructing them to disable the blocking extension
+                for your site.
+              </p>
+            </>
+          )}
+        </div>
       </div>
     </section>
   );
